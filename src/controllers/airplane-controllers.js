@@ -32,6 +32,10 @@ async function createAirplane(req,res) {
     }
 }  
 
+/**
+ *  GET : /airplane
+ *  req.body: {}
+ */
 async function getAirplanes(req,res) {
     try {
         const airplanes = await airplaneService.getAirplanes();
@@ -49,6 +53,10 @@ async function getAirplanes(req,res) {
     }
 }
 
+/**
+ *  GET : /airplane/:id
+ *  req.body:  
+ */
 async function getAirplane(req,res) {
     try {
         const airplane = await airplaneService.getAirplane(req.params.id);
@@ -59,14 +67,48 @@ async function getAirplane(req,res) {
         return res.status(statusCodes.OK).json(SuccessResponse);            
     
     } catch (error) {
+        console.log(error);
         ErrorResponse.message="Something went wrong while fetching the airplane";
         ErrorResponse.error=error;
         return res.status(error.statusCode || statusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
     }
 }
 
+
+async function updateAirplane(req,res) {
+    try {
+        const response= await airplaneService.updateAirplane(req.params.id,req.body);
+        SuccessResponse.message="Successfully updated the airplane";
+        SuccessResponse.data={};
+        return res.status(statusCodes.OK).json(SuccessResponse);
+    } catch (error) {
+        ErrorResponse.message="Something went wrong";
+        ErrorResponse.error=error;
+        return res.status(error.statusCode || statusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+    }
+}
+
+async function deleteAirplane(req,res) {
+    try {
+        const response = await airplaneService.deleteAirplane(req.params.id);
+        SuccessResponse.message = "Successfully deleted the airplane";
+        SuccessResponse.data={};
+        
+        return res.status(statusCodes.OK).json(SuccessResponse);
+
+    } catch (error) {
+        ErrorResponse.message = "Something went wrong";
+        ErrorResponse.error=error;
+        return res.status(error.statusCode || statusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);        
+    }
+}
+
+
+
 module.exports={
     createAirplane,
     getAirplanes,
-    getAirplane
+    getAirplane,
+    deleteAirplane,
+    updateAirplane
 }

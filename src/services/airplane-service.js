@@ -16,8 +16,7 @@ class AirplaneService {
             const airplane=await this.#airplaneRepository.create(data);
             return airplane;
         } catch (error) {
-            console.log(error);
-            //logger.error(error);
+            logger.error(error);
             if(error.name=='SequelizeValidationError') {
                 let details=[];
                 error.errors.forEach((err)=>{
@@ -45,15 +44,34 @@ class AirplaneService {
         try {
             const airplane = await this.#airplaneRepository.get(id);
             if(!airplane) {
-                throw new AppError("Id does not exist",StatusCodes.BAD_REQUEST);
+                throw new AppError("The requested airplane does not exist",StatusCodes.NOT_FOUND);
             }
             return airplane;
         } catch (error) {
-            logger.error(error);
             throw error;
         }
     }
 
+     async deleteAirplane(id) {
+        try {
+            const response = await this.#airplaneRepository.destroy(id);
+            if(response) return response;
+            else throw new AppError("The requested airplane does not exist",StatusCodes.NOT_FOUND);
+        } catch (error) {
+            throw error;
+        }
+     }
+
+     async updateAirplane(id,data) {    // TODO: As of now, we have just handled invalid id, but not attributes req body error
+        try {
+            const response = await this.#airplaneRepository.update(id,data);
+            if(response[0]) return response;
+            else throw new AppError("The requested airplane does not exist",StatusCodes.NOT_FOUND);
+        } catch(error) {
+            console.log(error);
+            throw error;
+        }
+     }
 }
 
 module.exports=AirplaneService;
