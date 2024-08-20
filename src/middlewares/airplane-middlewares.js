@@ -2,7 +2,7 @@ const { StatusCodes } = require("http-status-codes");
 
 const { ErrorResponse }= require("../utils/common");
 
-function validateCreateRequest(req,res,next) {
+function validateCreateAirplaneRequest(req,res,next) {
     if(!req.body.modelNumber) {
 
         ErrorResponse.message="Something went wrong while creating airplane";
@@ -14,5 +14,5 @@ function validateCreateRequest(req,res,next) {
 }
 
 module.exports={
-    validateCreateRequest
+    validateCreateAirplaneRequest
 }
