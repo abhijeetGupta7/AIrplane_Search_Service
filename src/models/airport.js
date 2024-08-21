@@ -16,6 +16,20 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: "CASCADE",
         onDelete: "CASCADE"
       });
+
+
+      // Association between FLight and Airport
+      Airport.hasMany(models.Flight, {
+        foreignKey: "arrivalAirportId",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE"
+      });
+
+      Airport.hasMany(models.Flight, {
+        foreignKey: "departureAirportId",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE"
+      });
     }
   }
   Airport.init({

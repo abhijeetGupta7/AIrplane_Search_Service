@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       // Defining the one-to-many association between City and Airport models
       City.hasMany(models.Airport, {
         foreignKey: 'cityId',
-        as: 'airports'
+        as: 'airports',
+        onDelete:"CASCADE"
       });
     }
   }
