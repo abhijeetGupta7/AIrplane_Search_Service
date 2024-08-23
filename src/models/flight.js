@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
+  
   Flight.init({
     flightNumber: {
       type:DataTypes.STRING,
