@@ -6,4 +6,6 @@ const flightRouter=express.Router();
 
 flightRouter.post("/",validateCreateFlightRequest, flightController.createFlight);
 
+flightRouter.get("/", flightController.getFlights);
+
 module.exports=flightRouter;

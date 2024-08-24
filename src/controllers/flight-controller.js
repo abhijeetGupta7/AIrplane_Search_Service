@@ -40,6 +40,25 @@ async function createFlight(req,res) {
     }
 }  
 
+async function getFlights(req,res) {
+    try {
+        const flights= await flightService.getFlights(req.query);
+
+        SuccessResponse.message="Successfully fetched all the flights";
+        SuccessResponse.data=flights;
+        return res.status(statusCodes.OK).json(SuccessResponse);
+
+    } catch (error) {
+        logger.error(error);
+        ErrorResponse.message="Something went wrong while fetching the flights";
+        ErrorResponse.error=error;
+
+        return res.status(error.statusCode || statusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+    }
+}
+
+
 module.exports={
     createFlight,
+    getFlights
 }

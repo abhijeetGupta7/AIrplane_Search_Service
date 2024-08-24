@@ -2,6 +2,7 @@ const { StatusCodes } = require("http-status-codes");
 const { FlightRepository } = require("../repositories");
 const AppError = require("../utils/errors/app-error");
 const logger = require('../config/winston-logger-config');
+const { Op } = require("sequelize");
 
 class FlightService {
     
@@ -25,6 +26,52 @@ class FlightService {
                 })
                 throw new AppError(details,StatusCodes.BAD_REQUEST);
             }
+            throw error;
+        }
+    }
+
+    async getFlights(query) {
+        try {
+            const customFilter={};
+            let sortFilter=[];
+
+            if(query.trips) {
+                const [ departureAirportId, arrivalAirportId ] = query.trips.split("-");
+                customFilter.departureAirportId=departureAirportId;
+                customFilter.arrivalAirportId=arrivalAirportId;
+            }
+            
+            if(query.price) {
+                const [ minPrice, maxPrice ] = query.price.split("-");
+                customFilter.price = {
+                    [Op.between] : [minPrice,maxPrice==undefined ? "200000" : maxPrice ]
+                }
+            }
+            
+            if(query.travellers) {
+                customFilter.totalSeats = {
+                    [Op.gte] : query.travellers
+                }
+            }
+
+            // TODO: Fix the UTC TIME ISSUE
+            const endDayTime=" 23:59:00";
+            if(query.tripDate) {
+                customFilter.departureTime = {
+                    [Op.between] : [ query.tripDate , query.tripDate+endDayTime]
+                }  
+            }
+
+            if(query.sort) {
+                const sortFilters=query.sort.split(",");
+                sortFilter = sortFilters.map((param) => param.split("_"));                
+            }
+            
+            console.log(sortFilter);
+            const flights = await this.#flightRepository.getAllFlights(customFilter,sortFilter);
+            return flights;
+        } catch (error) {
+            logger.error(error);
             throw error;
         }
     }
