@@ -14,20 +14,26 @@ module.exports = (sequelize, DataTypes) => {
       // Define association with the Airplane model
       Flight.belongsTo(models.Airplane, {
         foreignKey: "airplaneId",
+        as: "airplaneDetails",
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
+
       });
 
       // Define association with the Airport model for arrivalAirportId
       Flight.belongsTo(models.Airport, {
+        as: "arrivalAirport",
         foreignKey: "arrivalAirportId",
+        targetKey: "code", // Match the arrivalAirportId with Airport.code
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
       });
 
       // Define association with the Airport model for departureAirportId
       Flight.belongsTo(models.Airport, {
+        as : "departureAirport",
         foreignKey: "departureAirportId",
+        targetKey: "code", // Match the arrivalAirportId with Airport.code
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
       });

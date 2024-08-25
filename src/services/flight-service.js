@@ -67,7 +67,6 @@ class FlightService {
                 sortFilter = sortFilters.map((param) => param.split("_"));                
             }
             
-            console.log(sortFilter);
             const flights = await this.#flightRepository.getAllFlights(customFilter,sortFilter);
             return flights;
         } catch (error) {
