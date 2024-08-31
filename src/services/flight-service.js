@@ -74,6 +74,27 @@ class FlightService {
             throw error;
         }
     }
+
+
+    async getFlight(id) {
+        try {
+            const flight=await this.#flightRepository.get(id);
+            if(!flight) throw new AppError("The requested Flight does not exist",StatusCodes.NOT_FOUND);
+            return flight;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async updateRemainingSeats(data) {
+        try {
+            console.log(data);
+            const response=await this.#flightRepository.updateRemainingSeats(data.flightId,data.seats,data.dec);
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports=FlightService;

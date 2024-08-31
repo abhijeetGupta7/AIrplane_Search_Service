@@ -1,11 +1,15 @@
 const express = require('express');
-const { validateCreateFlightRequest } = require('../../middlewares');
+const { flightMiddlewares } = require('../../middlewares');
 const { flightController } = require('../../controllers');
 
 const flightRouter=express.Router();
 
-flightRouter.post("/",validateCreateFlightRequest, flightController.createFlight);
+flightRouter.post("/",flightMiddlewares.validateCreateFlightRequest, flightController.createFlight);
 
 flightRouter.get("/", flightController.getFlights);
+
+flightRouter.get("/:id", flightController.getFlight);
+
+flightRouter.patch("/:id/seats", flightMiddlewares.validateupdateSeatsFlightRequest, flightController.updateRemainingSeats);
 
 module.exports=flightRouter;

@@ -60,6 +60,16 @@ function validateCreateFlightRequest(req,res,next) {
     next();
 }
 
+function validateupdateSeatsFlightRequest(req,res,next) {
+    if(!req.body.seats) {
+        ErrorResponse.message="Something went wrong while updating Seats";
+        ErrorResponse.data= { Explanation: "Seats not found in the request body" };
+        return res.status(StatusCodes.BAD_REQUEST).json(ErrorResponse);
+    }
+    next();
+}
+
 module.exports={
-    validateCreateFlightRequest
+    validateCreateFlightRequest,
+    validateupdateSeatsFlightRequest
 }
