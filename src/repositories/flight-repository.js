@@ -10,6 +10,7 @@ class FlightRepository extends CrudRepository {
     }
 
     async getAllFlights(filter,sortFilter) {
+        console.log(filter);
         const response = await Flight.findAll({
             where: filter,
             order : sortFilter,
@@ -45,9 +46,9 @@ class FlightRepository extends CrudRepository {
     async updateRemainingSeats(flightId,seats,dec='true') {
         
         const transaction= await db.sequelize.transaction();
-        db.sequelize.query(addRowLockOnFlight(flightId));
         
         try {
+            db.sequelize.query(addRowLockOnFlight(flightId));
             if(dec=='true') {
                 await Flight.decrement('totalSeats', { 
                     by: seats, where: { "id":flightId }  
