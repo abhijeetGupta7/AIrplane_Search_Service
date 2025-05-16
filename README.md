@@ -1,100 +1,231 @@
-```markdown
-# Node.js Project Template
+# ✈️ Airline Search Service – API Documentation
 
-This is a base Node.js project template, which anyone can use as it has been prepared, by keeping some of the most important code principles and project management recommendations in mind. Feel free to change anything as needed.
+## 📘 Base URL
 
-## Project Structure
-
-```plaintext
-src/
-  ├── config/
-  ├── routes/
-  ├── middlewares/
-  ├── controllers/
-  ├── repositories/
-  ├── services/
-  └── utils/
 ```
-
-### src
-
-Inside the `src` folder, all the actual source code related to the project resides. This will not include any kind of tests. (You might want to make a separate `tests` folder.)
-
-### config
-
-In this folder, anything and everything regarding any configurations or setup of a library or module will be done. For example:
-- **dotenv**: Setting up `dotenv` so that we can use environment variables anywhere in a cleaner fashion. This is done in `server-config.js`.
-- **Logging Library**: Configuration for setting up a logging library to prepare meaningful logs should also be done here.
-
-### routes
-
-In the `routes` folder, we register a route and the corresponding middleware and controllers to it.
-
-### middlewares
-
-Middlewares intercept the incoming requests, where we can write our validators, authenticators, etc.
-
-### controllers
-
-Controllers are like the last middleware, as after them, you call your business layer to execute the business logic. In controllers, we:
-- Receive incoming requests and data.
-- Pass it to the business layer.
-- Structure the API response and send the output once the business layer returns.
-
-### repositories
-
-This folder contains all the logic used to interact with the database by writing queries. All raw queries or ORM queries will go here.
-
-### services
-
-The `services` folder contains the business logic and interacts with repositories to retrieve data from the database.
-
-### utils
-
-The `utils` folder contains helper methods, error classes, etc.
-
-## Setup the Project
-
-1. **Download this template** from GitHub and open it in your favorite text editor.
-
-2. **Install dependencies** by navigating to the project folder and running:
-
-    ```bash
-    npm install
-    ```
-
-3. **Create a `.env` file** in the root directory and add the following environment variables:
-
-    ```plaintext
-    PORT=<port number of your choice>
-    ```
-
-    Example:
-
-    ```plaintext
-    PORT=3000
-    ```
-
-4. **Initialize Sequelize** by navigating to the `src` folder and executing the following command:
-
-    ```bash
-    npx sequelize init
-    ```
-
-    By executing the above command, you will get `migrations` and `seeders` folders along with a `config.json` inside the `config` folder.
-
-5. **Database Configuration**:
-    - If you're setting up your **development environment**, then write the username of your DB, the password of your DB, and in `dialect`, mention whatever DB you are using (e.g., `mysql`, `mariadb`, etc.).
-    - If you're setting up a **test or production environment**, make sure you also replace the host with the hosted DB URL.
-
-6. **Run the Server**:
-
-    To start the server, execute:
-
-    ```bash
-    npm run dev
-    ```
+/api/v1
+```
 
 ---
 
-Feel free to contribute to this template and make it even better!
+## ✈️ Airplane APIs
+
+### 🔹 Create Airplane
+
+* **Endpoint:** `POST /api/v1/airplane`
+* **Request Body:**
+
+  ```json
+  {
+    "modelNumber": "airbus340",
+    "capacity": 900
+  }
+  ```
+* **Response:** `201 Created`
+  Returns the created airplane object.
+
+### 🔹 Get All Airplanes
+
+* **Endpoint:** `GET /api/v1/airplane`
+* **Response:** `200 OK`
+  Returns a list of all airplanes.
+
+### 🔹 Get Airplane by ID
+
+* **Endpoint:** `GET /api/v1/airplane/:id`
+* **Response:** `200 OK`
+  Returns the airplane object.
+
+### 🔹 Update Airplane
+
+* **Endpoint:** `PATCH /api/v1/airplane/:id`
+* **Request Body:**
+  Partial or full airplane object.
+* **Response:** `200 OK`
+
+### 🔹 Delete Airplane
+
+* **Endpoint:** `DELETE /api/v1/airplane/:id`
+* **Response:** `200 OK`
+
+---
+
+## 🏙️ City APIs
+
+### 🔹 Create City
+
+* **Endpoint:** `POST /api/v1/city`
+* **Request Body:**
+
+  ```json
+  {
+    "name": "Delhi"
+  }
+  ```
+* **Response:** `201 Created`
+
+### 🔹 Get All Cities
+
+* **Endpoint:** `GET /api/v1/city`
+* **Response:** `200 OK`
+
+### 🔹 Get City by ID
+
+* **Endpoint:** `GET /api/v1/city/:id`
+* **Response:** `200 OK`
+
+### 🔹 Update City
+
+* **Endpoint:** `PATCH /api/v1/city/:id`
+* **Request Body:**
+  Partial or full city object.
+* **Response:** `200 OK`
+
+### 🔹 Delete City
+
+* **Endpoint:** `DELETE /api/v1/city/:id`
+* **Response:** `200 OK`
+
+---
+
+## 🛬 Airport APIs
+
+### 🔹 Create Airport
+
+* **Endpoint:** `POST /api/v1/airport`
+* **Request Body:**
+
+  ```json
+  {
+    "name": "Indira Gandhi International",
+    "code": "DEL",
+    "address": "New Delhi",
+    "cityId": 1
+  }
+  ```
+* **Response:** `201 Created`
+
+### 🔹 Get All Airports
+
+* **Endpoint:** `GET /api/v1/airport`
+* **Response:** `200 OK`
+
+### 🔹 Get Airport by ID
+
+* **Endpoint:** `GET /api/v1/airport/:id`
+* **Response:** `200 OK`
+
+### 🔹 Update Airport
+
+* **Endpoint:** `PATCH /api/v1/airport/:id`
+* **Request Body:**
+  Partial or full airport object.
+* **Response:** `200 OK`
+
+### 🔹 Delete Airport
+
+* **Endpoint:** `DELETE /api/v1/airport/:id`
+* **Response:** `200 OK`
+
+---
+
+## 🛫 Flight APIs
+
+### 🔹 Create Flight
+
+* **Endpoint:** `POST /api/v1/flights`
+* **Request Body:**
+
+  ```json
+  {
+    "flightNumber": "AI101",
+    "airplaneId": 1,
+    "arrivalAirportId": "DEL",
+    "departureAirportId": "BOM",
+    "arrivalTime": "2024-08-30T10:00:00Z",
+    "departureTime": "2024-08-30T07:00:00Z",
+    "price": 5000,
+    "boardingGate": "A1",
+    "totalSeats": 200
+  }
+  ```
+* **Response:** `201 Created`
+
+### 🔹 Get All Flights
+
+* **Endpoint:** `GET /api/v1/flights`
+* **Query Parameters:**
+
+  * `trips=departureCode-arrivalCode`
+  * `price=min-max`
+  * `travellers=n`
+  * `tripDate=YYYY-MM-DD`
+  * `sort=field_order` (e.g., `price_ASC`)
+* **Response:** `200 OK`
+
+### 🔹 Get Flight by ID
+
+* **Endpoint:** `GET /api/v1/flights/:id`
+* **Response:** `200 OK`
+
+### 🔹 Update Remaining Seats
+
+* **Endpoint:** `PATCH /api/v1/flights/:id/seats`
+* **Request Body:**
+
+  ```json
+  {
+    "seats": 2,
+    "dec": "true"
+  }
+  ```
+* **Response:** `200 OK`
+
+---
+
+## ℹ️ Info API
+
+### 🔹 Get API Status
+
+* **Endpoint:** `GET /api/v1/info`
+* **Response:** `200 OK`
+
+  ```json
+  {
+    "message": "API is live"
+  }
+  ```
+
+---
+
+## ❌ Error Response Format
+
+All error responses follow this structure:
+
+```json
+{
+  "success": false,
+  "message": "Error message",
+  "data": {},
+  "error": {
+    "Explanation": "Detailed explanation"
+  }
+}
+```
+
+---
+
+## ✅ Success Response Format
+
+All success responses follow this structure:
+
+```json
+{
+  "success": true,
+  "message": "Success message",
+  "data": {
+    /* response data */
+  },
+  "error": {}
+}
+```
